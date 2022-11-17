@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -19,7 +20,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['product_write']]
 )]
 #[Get(
-    normalizationContext: ['groups' => ['product_read', 'product_get']]
+    normalizationContext: ['groups' => ['product_read', 'product_get']],
+    security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"
 )]
 #[GetCollection(
     normalizationContext: ['groups' => ['product_read', 'product_cget']]
@@ -57,6 +59,10 @@ class Product
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
     #[Groups(['product_get', 'product_write'])]
     private Collection $category;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[Blameable(on: 'create')]
+    private ?User $owner = null;
 
     public function __construct()
     {
@@ -148,6 +154,18 @@ class Product
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

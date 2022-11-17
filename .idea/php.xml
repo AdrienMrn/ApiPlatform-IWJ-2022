@@ -117,6 +117,11 @@
       <path value="$PROJECT_DIR$/api/vendor/friendsofphp/proxy-manager-lts" />
       <path value="$PROJECT_DIR$/api/vendor/stella-maris/clock" />
       <path value="$PROJECT_DIR$/api/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/lexik/jwt-authentication-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/api/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/api/vendor/stof/doctrine-extensions-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/gedmo/doctrine-extensions" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
